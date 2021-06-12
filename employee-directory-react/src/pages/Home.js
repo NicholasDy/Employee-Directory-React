@@ -43,6 +43,13 @@ function Home() {
                 accessor: 'gender', // accessor is the "key" in the data
             },
             {
+                id: 'age',
+                Header: 'Age',
+                accessor: row => `${row.registered.age}`, // accessor is the "key" in the data
+                Cell: ({row}) => (
+                    <span>{ row.original.registered.age } </span>)
+            },
+            {
                 Header: 'Cell Phone Number',
                 accessor: 'cell', // accessor is the "key" in the data
             },
