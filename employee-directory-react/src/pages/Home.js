@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import Table from "../components/Table/Table";
 import { useTable, columns } from 'react-table'
 import API from "../utils/API";
@@ -10,27 +10,20 @@ function Home() {
     const [data, setData] = useState();
 
 
-    // useEffect(() => {
-    //     async function getApi() {
-    //         await 
-    //     }
-    // })
+    useEffect(() => {
+        API.getRandomPeople()
+            .then(res => {
+                console.log(res.data.results)
+                // have to be careful or else the instance is going to loop over itself
+                setData(res.data.results)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }, [])
 
-    API.getRandomPeople()
-        .then(res => {
-            console.log(res.data.results)
-            // have to be careful or else the instance is going to loop over itself
-            // setData(res.data.results)
-        })
-        .catch(err => {
-            console.log(err)
-        })
-    // the data for the api table 
-    // const data = React.useMemo(() => [
-    //     {
 
-    //     }
-    // ])
+
     // // the column headers and the keys to the coloumn names
     // const columns = React.useMemo(
     //     () => [
@@ -40,16 +33,17 @@ function Home() {
     //         },
     //     ]
     // )
-    const instance = useTable(
-        {
-            data: [],
-            columns: [],
-        }
-    )
+    // const instance = useTable(
+    //     {
+    //         data: [],
+    //         columns: [],
+    //     }
+    // )
 
     return (
         <div>
-            <Table columns={columns} data={data}/>
+            {/* <Table columns={columns} data={data} /> */}
+            <p>Hi</p>
         </div>
     )
 }
