@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react"
 import Table from "../components/Table/Table";
-import { useTable, columns } from 'react-table'
 import API from "../utils/API";
 
 function Home() {
 
     //call state 
     // name, email, gender, age, cell
-    const [data, setData] = useState();
+    const [data, setData] = useState( [] );
 
 
-    useEffect(() => {
+    useEffect( () => {
         API.getRandomPeople()
             .then(res => {
                 console.log(res.data.results)
@@ -20,30 +19,42 @@ function Home() {
             .catch(err => {
                 console.log(err)
             })
-    }, [])
+    }, [] )
 
 
-
+   // name, email, gender, age, cell
     // // the column headers and the keys to the coloumn names
-    // const columns = React.useMemo(
-    //     () => [
-    //         {
-    //             Header: 'Column 1',
-    //             accessor: 'col1', // accessor is the "key" in the data
-    //         },
-    //     ]
-    // )
-    // const instance = useTable(
-    //     {
-    //         data: [],
-    //         columns: [],
-    //     }
-    // )
+    const columns = React.useMemo(
+        () => [
+            {
+                id: 'name',
+                Header: 'Name',
+                accessor: row => `${ row.name.first }${ row.name.last }`, // accessor is the "key" in the data
+                Cell: ({ row }) => (
+                    <span>{ row.original.name.first } { row.original.name.last }</span>
+                )
+            },
+            {
+                Header: 'Email',
+                accessor: 'email', // accessor is the "key" in the data
+            },
+            {
+                Header: 'Gender',
+                accessor: 'gender', // accessor is the "key" in the data
+            },
+            {
+                Header: 'Cell Phone Number',
+                accessor: 'cell', // accessor is the "key" in the data
+            },
+        ],
+        []
+    )
+
+    if ( !data.length ) { return <p>Loading...</p> }
 
     return (
         <div>
-            {/* <Table columns={columns} data={data} /> */}
-            <p>Hi</p>
+            <Table columns={columns} data={data} />
         </div>
     )
 }
