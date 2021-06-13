@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react"
 import Table from "../components/Table/Table";
 import API from "../utils/API";
+import Searchform from "../components/SearchForm/index";
 
 function Home() {
 
     //call state 
     // name, email, gender, age, cell
-    const [data, setData] = useState( [] );
+    const [data, setData] = useState([]);
+    const [search, setSearch] = useState("");
 
 
-    useEffect( () => {
+    useEffect(() => {
         API.getRandomPeople()
             .then(res => {
                 console.log(res.data.results)
@@ -19,19 +21,18 @@ function Home() {
             .catch(err => {
                 console.log(err)
             })
-    }, [] )
+    }, [])
 
-
-   // name, email, gender, age, cell
+    // name, email, gender, age, cell
     // // the column headers and the keys to the coloumn names
     const columns = React.useMemo(
         () => [
             {
                 id: 'name',
                 Header: 'Name',
-                accessor: row => `${ row.name.first }${ row.name.last }`, // accessor is the "key" in the data
+                accessor: row => `${row.name.first}${row.name.last}`, // accessor is the "key" in the data
                 Cell: ({ row }) => (
-                    <span>{ row.original.name.first } { row.original.name.last }</span>
+                    <span>{row.original.name.first} { row.original.name.last}</span>
                 )
             },
             {
@@ -46,8 +47,8 @@ function Home() {
                 id: 'age',
                 Header: 'Age',
                 accessor: row => `${row.registered.age}`, // accessor is the "key" in the data
-                Cell: ({row}) => (
-                    <span>{ row.original.registered.age } </span>)
+                Cell: ({ row }) => (
+                    <span>{row.original.registered.age} </span>)
             },
             {
                 Header: 'Cell Phone Number',
@@ -57,11 +58,11 @@ function Home() {
         []
     )
 
-    if ( !data.length ) { return <p>Loading...</p> }
+    if (!data.length) { return <p>Loading...</p> }
 
     return (
         <div>
-            <Table columns={columns} data={data} />
+            <Table columns={columns} data={data} results={search}/>
         </div>
     )
 }
